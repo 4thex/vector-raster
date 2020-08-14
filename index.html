@@ -28,15 +28,49 @@
     </div>
     <script src="node_modules/reveal.js/dist/reveal.js"></script>
     <script>
-      Reveal.initialize();
+      Reveal.initialize({
+        center: false
+      });
       Reveal.on("fragmentshown", event => {
+        const width = 500;
+        const height = 500;
         let element = event.fragment;
         let parent = element.parentNode;
-        let svg = d3
-          .select(parent)
-          .append("svg");
+        let svg;
         switch(element.id) {
           case "ral-1":
+            d3
+            .select(parent)
+            .select("svg")
+            .remove();
+            svg = d3
+              .select(parent)
+              .append("svg");
+            svg
+              .attr("width", width)
+              .attr("height", height);
+            // render the coordiante system
+            let interval = height/10;
+            for (let x = 0; x <= 10; x++) {
+              for (let y = 0; y <= 10; y++) {
+                svg
+                  .append("line")
+                  .attr("x1", 0)
+                  .attr("y1", y*interval)
+                  .attr("x2", width)
+                  .attr("y2", y*interval)
+                  .attr("stroke", "white")
+                  .attr("stroke-width", 1);
+                svg
+                  .append("line")
+                  .attr("x1", x*interval)
+                  .attr("y1", 0)
+                  .attr("x2", x*interval)
+                  .attr("y2", height)
+                  .attr("stroke", "white")
+                  .attr("stroke-width", 1);
+              }
+            }
             svg
               .append("rect")
               .attr("x", 50)
@@ -47,6 +81,9 @@
               .attr("fill", "blue");
             break;
           case "ral-2":
+            svg = d3
+              .select(parent)
+              .select("svg");
             svg
               .append("circle")
               .attr("cx", 100)
