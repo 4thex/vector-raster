@@ -29,7 +29,7 @@ let actions = [
         .attr("height", 50)
         .attr("stroke", "white")
         .attr("stroke-width", 2)
-        .attr("fill", "white")      
+        .attr("fill", "white")
     }
   }
 
@@ -44,6 +44,20 @@ let execute = props => {
   todos.forEach(todo => {
     todo.action(svg);
   });
-
 };
-export { actions, execute };
+let render = props => {
+  let element = props.element;
+  let kind = element.id;
+  let todos = actions.filter(action => {
+    return action.kind = kind;
+  });
+  d3
+    .select(element)
+    .selectAll("i")
+    .data(todos)
+    .enter()
+    .append("i")
+    .attr("id", d => `${d.kind}-${d.index}`)
+    .attr("class", "fragment");
+};
+export { actions, execute, render };

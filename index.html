@@ -20,8 +20,8 @@
         <section>
           Rendering a line
           <section id="int">
-            <i class="fragment" id="int-1" />
-            <i class="fragment" id="int-2" />
+            <!--<i class="fragment" id="int-1" />
+            <i class="fragment" id="int-2" />-->
           </section>
         </section>
       </div>
@@ -29,15 +29,19 @@
     <script src="node_modules/reveal.js/dist/reveal.js"></script>
     <script src="fragments.js" type="module"></script>
     <script type="module">
-      import { execute as execute } from "./fragments.js";
+      import { execute as executeFragments, render as renderFragments } from "./fragments.js";
+
       Reveal.initialize({
         center: false
       });
 
-      Reveal.on("fragmentshown", event => {
+      Reveal.on("slidechanged", event => {
+        renderFragments({element: event.currentSlide});
+      });
+
+      let initializeFragment = element => {
         const width = 500;
         const height = 500;
-        let element = event.fragment;
         let parent = element.parentNode;
         let svg;
         d3
@@ -49,7 +53,17 @@
           .append("svg")
           .attr("width", width)
           .attr("height", height);
-        execute({id: element.id, svg: svg})
+        return svg;
+      };
+      Reveal.on("fragmenthidden", event => {
+        let element = event.fragment;
+        let svg = initializeFragment(element);
+      });
+
+      Reveal.on("fragmentshown", event => {
+        let element = event.fragment;
+        let svg = initializeFragment(element);
+        executeFragments({id: element.id, svg: svg})
       });
     </script>
   </body>
