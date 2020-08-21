@@ -18,7 +18,7 @@
           Bilinear Interpolation
         </section>
         <section>
-          Rendering a line
+          8x8 image
           <section id="int">
             <!--<i class="fragment" id="int-1" />
             <i class="fragment" id="int-2" />-->
@@ -58,6 +58,7 @@
       Reveal.on("fragmenthidden", event => {
         let element = event.fragment;
         let svg = initializeFragment(element);
+        executeFragments({id: element.id, svg: svg, previous: true});
       });
 
       Reveal.on("fragmentshown", event => {
