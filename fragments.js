@@ -39,6 +39,10 @@ let actions = [
     action: (svg) => {
       let interval = 50;
       let data = [
+        {p: [0, 0, 7, 0], c: "black"},
+        {p: [7, 0, 7, 7], c: "black"},
+        {p: [7, 7, 0, 7], c: "black"},
+        {p: [0, 7, 0, 0], c: "black"},
         {p: [1, 1, 6, 1], c: "red"},
         {p: [6, 1, 6, 6], c: "red"},
         {p: [6, 6, 1, 6], c: "red"},
@@ -75,18 +79,78 @@ let actions = [
       execute({id: "int-2", svg: svg, previous: true})
       let interval = 50;
       let data = [
-        {p: [1, 1, 6, 1], c: "red"},
-        {p: [6, 1, 6, 6], c: "red"},
-        {p: [6, 6, 1, 6], c: "red"},
-        {p: [1, 6, 1, 1], c: "red"},
-        {p: [2, 2, 5, 2], c: "green"},
-        {p: [5, 2, 5, 5], c: "green"},
-        {p: [5, 5, 2, 5], c: "green"},
-        {p: [2, 5, 2, 2], c: "green"},
-        {p: [3, 3, 4, 3], c: "blue"},
-        {p: [4, 3, 4, 4], c: "blue"},
-        {p: [4, 4, 3, 4], c: "blue"},
-        {p: [3, 4, 3, 3], c: "blue"}
+        {p: [0, 0], c: "black"},
+        {p: [1, 0], c: "black"},
+        {p: [2, 0], c: "black"},
+        {p: [3, 0], c: "black"},
+        {p: [4, 0], c: "black"},
+        {p: [5, 0], c: "black"},
+        {p: [6, 0], c: "black"},
+        {p: [7, 0], c: "black"},
+        {p: [7, 0], c: "black"},
+        {p: [7, 1], c: "black"},
+        {p: [7, 2], c: "black"},
+        {p: [7, 3], c: "black"},
+        {p: [7, 4], c: "black"},
+        {p: [7, 5], c: "black"},
+        {p: [7, 6], c: "black"},
+        {p: [7, 7], c: "black"},
+        {p: [0, 0], c: "black"},
+        {p: [1, 7], c: "black"},
+        {p: [2, 7], c: "black"},
+        {p: [3, 7], c: "black"},
+        {p: [4, 7], c: "black"},
+        {p: [5, 7], c: "black"},
+        {p: [6, 7], c: "black"},
+        {p: [7, 7], c: "black"},
+        {p: [0, 0], c: "black"},
+        {p: [0, 1], c: "black"},
+        {p: [0, 2], c: "black"},
+        {p: [0, 3], c: "black"},
+        {p: [0, 4], c: "black"},
+        {p: [0, 5], c: "black"},
+        {p: [0, 6], c: "black"},
+        {p: [0, 7], c: "black"},
+        {p: [1, 1], c: "red"},
+        {p: [2, 1], c: "red"},
+        {p: [3, 1], c: "red"},
+        {p: [4, 1], c: "red"},
+        {p: [5, 1], c: "red"},
+        {p: [6, 1], c: "red"},
+        {p: [6, 2], c: "red"},
+        {p: [6, 3], c: "red"},
+        {p: [6, 4], c: "red"},
+        {p: [6, 5], c: "red"},
+        {p: [6, 6], c: "red"},
+        {p: [1, 6], c: "red"},
+        {p: [2, 6], c: "red"},
+        {p: [3, 6], c: "red"},
+        {p: [4, 6], c: "red"},
+        {p: [5, 6], c: "red"},
+        {p: [6, 6], c: "red"},
+        {p: [1, 1], c: "red"},
+        {p: [1, 2], c: "red"},
+        {p: [1, 3], c: "red"},
+        {p: [1, 4], c: "red"},
+        {p: [1, 5], c: "red"},
+        {p: [1, 6], c: "red"},
+        {p: [2, 2], c: "green"},
+        {p: [3, 2], c: "green"},
+        {p: [4, 2], c: "green"},
+        {p: [5, 2], c: "green"},
+        {p: [5, 3], c: "green"},
+        {p: [5, 4], c: "green"},
+        {p: [5, 5], c: "green"},
+        {p: [2, 5], c: "green"},
+        {p: [2, 4], c: "green"},
+        {p: [2, 3], c: "green"},
+        {p: [2, 5], c: "green"},
+        {p: [3, 5], c: "green"},
+        {p: [4, 5], c: "green"},
+        {p: [3, 3], c: "blue"},
+        {p: [4, 3], c: "blue"},
+        {p: [4, 4], c: "blue"},
+        {p: [3, 4], c: "blue"}
       ];
 
       // expand the data into single points
@@ -101,8 +165,29 @@ let actions = [
         .append("circle")
         .attr("cx", d => d.p[0]*interval)
         .attr("cy", d => d.p[1]*interval)
-        .attr("r", 5)
+        .attr("r", 10)
         .attr("fill", d => d.c)
+    }
+  },
+  {
+    kind: "int",
+    index: 4,
+    action: (svg) => {
+
+    svg
+      .append("animateTransform")
+      .attr("attributeName", "transform")
+      .attr("type", "scale")
+      .attr("values", "1,1;0.25,0.25")
+      .attr("dur", "3s")
+      .attr("repeatCount", "1")
+    svg
+      .append("animateTransform")
+      .attr("attributeName", "transform")
+      .attr("type", "translate")
+      .attr("values", "25,25;25,25")
+      .attr("dur", "3s")
+      .attr("repeatCount", "1")
     }
   }
 ];

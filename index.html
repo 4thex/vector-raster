@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="node_modules/reveal.js/dist/reset.css">
 		<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css">
 		<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/league.css" id="theme">
+    <link rel="stylesheet" href="main.css">
   </head>
   <body>
     <div class="reveal">
@@ -52,7 +53,9 @@
           .select(parent)
           .append("svg")
           .attr("width", width)
-          .attr("height", height);
+          .attr("height", height)
+          .append("g")
+          .attr("transform", "translate(25, 25)");
         return svg;
       };
       Reveal.on("fragmenthidden", event => {
