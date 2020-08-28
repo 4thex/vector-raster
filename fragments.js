@@ -79,78 +79,6 @@ let actions = [
       execute({id: "int-2", svg: svg, previous: true})
       let interval = 50;
       let data = [
-        // {p: [0, 0], c: "black"},
-        // {p: [1, 0], c: "black"},
-        // {p: [2, 0], c: "black"},
-        // {p: [3, 0], c: "black"},
-        // {p: [4, 0], c: "black"},
-        // {p: [5, 0], c: "black"},
-        // {p: [6, 0], c: "black"},
-        // {p: [7, 0], c: "black"},
-        // {p: [7, 0], c: "black"},
-        // {p: [7, 1], c: "black"},
-        // {p: [7, 2], c: "black"},
-        // {p: [7, 3], c: "black"},
-        // {p: [7, 4], c: "black"},
-        // {p: [7, 5], c: "black"},
-        // {p: [7, 6], c: "black"},
-        // {p: [7, 7], c: "black"},
-        // {p: [0, 0], c: "black"},
-        // {p: [1, 7], c: "black"},
-        // {p: [2, 7], c: "black"},
-        // {p: [3, 7], c: "black"},
-        // {p: [4, 7], c: "black"},
-        // {p: [5, 7], c: "black"},
-        // {p: [6, 7], c: "black"},
-        // {p: [7, 7], c: "black"},
-        // {p: [0, 0], c: "black"},
-        // {p: [0, 1], c: "black"},
-        // {p: [0, 2], c: "black"},
-        // {p: [0, 3], c: "black"},
-        // {p: [0, 4], c: "black"},
-        // {p: [0, 5], c: "black"},
-        // {p: [0, 6], c: "black"},
-        // {p: [0, 7], c: "black"},
-        // {p: [1, 1], c: "red"},
-        // {p: [2, 1], c: "red"},
-        // {p: [3, 1], c: "red"},
-        // {p: [4, 1], c: "red"},
-        // {p: [5, 1], c: "red"},
-        // {p: [6, 1], c: "red"},
-        // {p: [6, 2], c: "red"},
-        // {p: [6, 3], c: "red"},
-        // {p: [6, 4], c: "red"},
-        // {p: [6, 5], c: "red"},
-        // {p: [6, 6], c: "red"},
-        // {p: [1, 6], c: "red"},
-        // {p: [2, 6], c: "red"},
-        // {p: [3, 6], c: "red"},
-        // {p: [4, 6], c: "red"},
-        // {p: [5, 6], c: "red"},
-        // {p: [6, 6], c: "red"},
-        // {p: [1, 1], c: "red"},
-        // {p: [1, 2], c: "red"},
-        // {p: [1, 3], c: "red"},
-        // {p: [1, 4], c: "red"},
-        // {p: [1, 5], c: "red"},
-        // {p: [1, 6], c: "red"},
-        // {p: [2, 2], c: "green"},
-        // {p: [3, 2], c: "green"},
-        // {p: [4, 2], c: "green"},
-        // {p: [5, 2], c: "green"},
-        // {p: [5, 3], c: "green"},
-        // {p: [5, 4], c: "green"},
-        // {p: [5, 5], c: "green"},
-        // {p: [2, 5], c: "green"},
-        // {p: [2, 4], c: "green"},
-        // {p: [2, 3], c: "green"},
-        // {p: [2, 5], c: "green"},
-        // {p: [3, 5], c: "green"},
-        // {p: [4, 5], c: "green"},
-        // {p: [3, 3], c: "blue"},
-        // {p: [4, 3], c: "blue"},
-        // {p: [4, 4], c: "blue"},
-        // {p: [3, 4], c: "blue"}
         {p: [0, 0, 7, 0], c: "black"},
         {p: [7, 0, 7, 7], c: "black"},
         {p: [7, 7, 0, 7], c: "black"},
@@ -169,32 +97,15 @@ let actions = [
         {p: [3, 4, 3, 3], c: "blue"}
       ];
 
-      let points = data.reduce((r, e) => {
-        let p = e.p;
-        let dx = p[2]-p[0];
-        let dy = p[3]-p[1];
-        let modify;
-        if(dx != 0) {
-          modify = c => [c[0]+Math.sign(dx), c[1]].slice();
-        } else {
-          modify = (i, j) => [c[0], c[1]+Math.sign(dy)].slice();
-        }
-        let c = [p[0], p[1]];
-        r.push({p:c, c:e.c});
-        while(c[0] != p[2] || c[1] != p[3]) {
-          c = modify(c);
-          r.push({p:c, c:e.c});
-        };
-        return r;
-      }, []);
       svg
         .append("g")
+        .attr("id", "int-3-points")
         .selectAll("circle")
-        .data(points)
+        .data(points(data))
         .enter()
         .append("circle")
-        .attr("cx", d => d[0]*interval)
-        .attr("cy", d => d[1]*interval)
+        .attr("cx", d => d.p[0]*interval)
+        .attr("cy", d => d.p[1]*interval)
         .attr("r", 10)
         .attr("fill", d => d.c)
     }
@@ -202,20 +113,129 @@ let actions = [
   {
     kind: "int",
     index: 4,
+    action: (svg, pass) => {
+      let duration = 1;
+      if(pass) {
+        svg
+          .attr("transform", "translate(25, 25) scale(0.5, 0.5)");
+      } else {
+        svg
+          .append("animateTransform")
+          .attr("attributeName", "transform")
+          .attr("attributeType", "XML")
+          .attr("type", "scale")
+          .attr("values", "1,1;0.5,0.5;")
+          .attr("dur", "1s")
+          .attr("repeatCount", "1")
+          .attr("fill", "freeze")
+          .attr("additive", "sum");
+      }
+    }
+  },
+  {
+    kind: "int",
+    index: 5,
     action: (svg) => {
-    svg
-      .append("animateTransform")
-      .attr("attributeName", "transform")
-      .attr("attributeType", "XML")
-      .attr("type", "scale")
-      .attr("values", "1,1;0.5,0.5;")
-      .attr("dur", "1s")
-      .attr("repeatCount", "1")
-      .attr("fill", "freeze")
-      .attr("additive", "sum");
+      let interval = 50;
+      let data = Array(17).fill().map((item, index) => {
+        return index * interval;
+      });
+      svg
+        .selectAll("line")
+        .remove();
+      svg
+        .append("g")
+        .selectAll("line")
+        .data(data)
+        .enter()
+        .append("line")
+        .attr("x1", d => d)
+        .attr("y1", 0)
+        .attr("x2", d => d)
+        .attr("y2", interval*(data.length-1))
+        .attr("stroke", "grey")
+        .attr("stroke-width", 1);
+      svg
+        .append("g")
+        .selectAll("line")
+        .data(data)
+        .enter()
+        .append("line")
+        .attr("x1", 0)
+        .attr("y1", d => d)
+        .attr("x2", interval*(data.length-1))
+        .attr("y2", d => d)
+        .attr("stroke", "grey")
+        .attr("stroke-width", 1);
+    }
+  },
+  {
+    kind: "int",
+    index: 6,
+    action: (svg, pass) => {
+      let ratio = 16/7;
+      let originalPoints = svg
+        .select("#int-3-points");
+      if(pass) {
+        originalPoints
+          .attr("transform", `scale(${ratio},${ratio})`);
+      } else {
+        originalPoints
+          .append("animateTransform")
+          .attr("attributeName", "transform")
+          .attr("attributeType", "XML")
+          .attr("type", "scale")
+          .attr("values", `1,1;${ratio},${ratio}`)
+          .attr("dur", "1s")
+          .attr("repeatCount", "1")
+          .attr("fill", "freeze")
+          .attr("additive", "sum");
+      }
+      svg
+        .selectAll("circle")
+        .attr("r", "5");
+    }
+  },
+  {
+    kind: "int",
+    index: 7,
+    action: (svg, pass) => {
+      if(pass) return;
+      svg
+        .append("animateTransform")
+        .attr("attributeName", "transform")
+        .attr("attributeType", "XML")
+        .attr("type", "scale")
+        .attr("values", "0.5,0.5;2.5,2.5")
+        .attr("dur", "1s")
+        .attr("repeatCount", "1")
+        .attr("fill", "freeze")
+        .attr("additive", "sum");
+      svg
+        .attr("transform", "translate(-200, -200)");
     }
   }
 ];
+
+let points = data => data.reduce((r, e) => {
+  let p = e.p;
+  let dx = p[2]-p[0];
+  let dy = p[3]-p[1];
+  let modify;
+  if(dx != 0) {
+    modify = c => [c[0]+Math.sign(dx), c[1]].slice();
+  } else {
+    modify = (i, j) => [c[0], c[1]+Math.sign(dy)].slice();
+  }
+  let c = [p[0], p[1]];
+  r.push({p:c, c:e.c});
+  while(c[0] != p[2] || c[1] != p[3]) {
+    c = modify(c);
+    r.push({p:c, c:e.c});
+  };
+  return r;
+}, []);
+
 let execute = props => {
   let svg = props.svg;
   let id = props.id;
@@ -225,10 +245,11 @@ let execute = props => {
     index--;
   }
   let todos = actions.filter(action => {
-    return action.kind = kind && action.index <= Number(index);
+    return action.kind == kind && action.index <= Number(index);
   });
-  todos.forEach(todo => {
-    todo.action(svg);
+  todos.forEach((todo, i) => {
+    // Do not execute a pass unless it is the last one
+    todo.action(svg, i < todos.length-1);
   });
 };
 let render = props => {
