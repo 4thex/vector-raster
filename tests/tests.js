@@ -1,19 +1,3 @@
-/**
-* @param {Array.<Array.<string>>} points - The 2D array that makes up the original pixels
-* @param {Object} scale - The scale factor of the image
-* @param {Number} scale.x - The horizontal scale
-* @param {Number} scale.y - The vertical scale
-*/
-let NN = scale => {
-  let find = (input) => {
-    let x = Math.round(input.x / scale.x);
-    let y = Math.round(input.y / scale.y);
-    return {x: x, y: y};
-  };
-  return {
-    find: find
-  };
-};
 QUnit.module('NN.find', function() {
   QUnit.test('Should find nearest neighbor', function(assert) {
     let nn = NN(
